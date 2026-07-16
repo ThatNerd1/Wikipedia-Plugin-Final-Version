@@ -5,6 +5,50 @@ Tastenkürzel direkt in einem Side Panel auf Wikipedia nachschlägt – **ohne L
 ohne KI, ohne Tracking, ohne eigenen Server.** Alle Inhalte kommen direkt über
 die offiziellen MediaWiki-Schnittstellen von Wikipedia.
 
+## Schnellstart
+
+Wikipedia Quick Search hilft beim Lesen im Web: Markiere ein Wort, einen Namen
+oder einen kurzen Satz und drücke `Alt+W`. Der passende Wikipedia-Artikel öffnet
+sich direkt in der Seitenleiste deines Browsers.
+
+### Installation
+
+1. Öffne die Erweiterung im Browser-Store.
+2. Klicke auf **Installieren** oder **Hinzufügen**.
+3. Bestätige die Browser-Abfrage.
+4. Fertig: Die Erweiterung ist einsatzbereit.
+
+Wenn du eine Testversion installierst, findest du die technischen Schritte weiter
+unten unter **Lokale Installation (Entwicklung)**.
+
+### So benutzt du die Erweiterung
+
+1. Öffne eine Webseite.
+2. Markiere ein Wort oder einen kurzen Text.
+3. Drücke `Alt+W` (Windows/Linux) oder `Option+W` (macOS).
+4. Lies den Wikipedia-Artikel in der Seitenleiste.
+
+Wenn kein Artikel eindeutig passt, zeigt die Erweiterung eine kurze Trefferliste.
+Wenn kein Text markiert ist, öffnet sich die Seitenleiste mit einem Suchfeld.
+
+### Optional: Klick-Modus
+
+Der Klick-Modus schlägt angeklickte Wörter direkt nach. Er ist standardmäßig aus
+und kann in der Seitenleiste eingeschaltet werden. Beim ersten Einschalten fragt
+der Browser, ob die Erweiterung die aktuelle Webseite lesen darf. Ohne diese
+Erlaubnis funktioniert die Suche per `Alt+W` weiterhin.
+
+### Datenschutz in Kurzform
+
+- Keine Anmeldung.
+- Kein Tracking.
+- Keine Werbung.
+- Kein eigener Server.
+- Suchanfragen gehen direkt an Wikipedia.
+- Verlauf, gespeicherte Artikel und Einstellungen bleiben lokal im Browser.
+
+## Technische Details für Entwicklerinnen und Entwickler
+
 > Diese Erweiterung ist die produktionsreife Neufassung eines Google-AI-Studio-
 > Prototyps. Der Prototyp war eine React-Webanwendung mit simuliertem Browser,
 > Gemini-Anbindung und Express-Server. Davon wurde nichts übernommen außer
