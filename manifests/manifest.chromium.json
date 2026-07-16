@@ -29,11 +29,13 @@
     "open_in_tab": true
   },
   "commands": {
-    "lookup-selection": {
+    "_execute_action": {
       "suggested_key": {
         "default": "Alt+W",
         "mac": "Alt+W"
-      },
+      }
+    },
+    "lookup-selection": {
       "description": "__MSG_cmdLookup__"
     }
   },

@@ -2,7 +2,7 @@
  * Background Service Worker (Chromium/Safari) bzw. Event Page (Firefox).
  * Klein, frameworkfrei, ausschließlich Koordination – kein DOM, kein HTML.
  */
-import { tryOpenNativePanel, configureActionClickOpensPanel, detectPanelKind } from '../browser/adapter.js';
+import { tryOpenNativePanel, detectPanelKind } from '../browser/adapter.js';
 import {
   DrawerLookupResponse, ExtensionMessage, MSG, SearchReason,
   isTrustedSender, validateMessage
@@ -135,7 +135,8 @@ async function verifyShortcutRegistration(): Promise<void> {
   try {
     const commands = await chrome.commands.getAll();
     const lookup = commands.find((c) => c.name === 'lookup-selection');
-    const registered = !!lookup?.shortcut;
+    const action = commands.find((c) => c.name === '_execute_action');
+    const registered = !!(action?.shortcut || lookup?.shortcut);
     await chrome.storage.local.set({ [SHORTCUT_STATE_KEY]: registered });
   } catch {
     await chrome.storage.local.set({ [SHORTCUT_STATE_KEY]: true });
@@ -360,7 +361,6 @@ function handleMessage(
 
 chrome.runtime.onInstalled.addListener(() => {
   void verifyShortcutRegistration();
-  void configureActionClickOpensPanel();
   void getSettings().then((s) => syncOnClickRegistration(s.onClickEnabled));
 });
 
@@ -372,9 +372,9 @@ chrome.commands?.onCommand.addListener((command, tab) => {
   if (command === 'lookup-selection') void handleLookupCommand(tab ?? undefined);
 });
 
-// Firefox/Safari ohne setPanelBehavior: Klick auf das Toolbar-Icon.
+// Toolbar-Klick und Chromes "_execute_action"-Shortcut laufen durch denselben Lookup-Pfad.
 chrome.action?.onClicked?.addListener((tab) => {
-  void tryOpenNativePanel(tab.id, tab.windowId);
+  void handleLookupCommand(tab);
 });
 
 chrome.runtime.onMessage.addListener((raw: unknown, sender, sendResponse) => {
