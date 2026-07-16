@@ -107,6 +107,13 @@ npm run build:chromium   # oder build:firefox / build:safari
 
 Die gebauten Erweiterungen liegen danach in `dist/<browser>/`.
 
+> **Für Einsteiger:** Ausführliche, bebilderte Schritt-für-Schritt-Anleitungen ohne
+> Vorwissen gibt es hier:
+> - Chrome / Edge / Brave / Opera / Vivaldi: [`docs/INSTALL-CHROME.md`](docs/INSTALL-CHROME.md)
+> - Safari (macOS): [`docs/INSTALL-SAFARI.md`](docs/INSTALL-SAFARI.md)
+>
+> Die folgenden Abschnitte sind die Kurzfassung für Entwickler.
+
 ### Sideloading in Chrome
 
 1. `chrome://extensions` öffnen.
@@ -127,7 +134,8 @@ Die gebauten Erweiterungen liegen danach in `dist/<browser>/`.
 
 ### Safari-Build über Xcode
 
-Siehe `safari/README.md`. Kurz:
+Einsteiger-Anleitung: [`docs/INSTALL-SAFARI.md`](docs/INSTALL-SAFARI.md).
+Kurzfassung (siehe auch `safari/README.md`):
 
 ```bash
 npm run build:safari
