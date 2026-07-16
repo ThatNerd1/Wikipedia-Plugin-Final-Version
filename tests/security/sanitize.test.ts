@@ -36,11 +36,11 @@ describe('Sanitizer – XSS-Abwehr', () => {
   });
   it('blockiert nicht vertrauenswürdige Bild-Hosts', () => {
     const out = clean('<img src="https://evil.example.com/x.jpg">');
-    expect(out).not.toMatch(/evil\.example\.com/);
+    expect(out.includes('evil.example.com')).toBe(false);
   });
   it('erlaubt vertrauenswürdige Wikimedia-Bilder mit lazy loading', () => {
     const out = clean('<img src="https://upload.wikimedia.org/a.jpg">');
-    expect(out).toMatch(/upload\.wikimedia\.org/);
+    expect(out.includes('upload.wikimedia.org')).toBe(true);
     expect(out).toMatch(/loading="lazy"/);
   });
   it('schreibt interne Links auf data-Attribute um', () => {

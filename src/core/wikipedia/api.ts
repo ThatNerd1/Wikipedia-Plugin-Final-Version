@@ -125,8 +125,17 @@ function asString(v: unknown, max = 5000): string | undefined {
 
 /** Entfernt HTML aus Snippets ohne DOM-Abhängigkeit (Snippets enthalten nur searchmatch-Spans). */
 export function stripSnippetHtml(snippet: string): string {
-  return snippet
-    .replace(/<[^>]*>/g, '')
+  // Tags wiederholt entfernen, bis sich nichts mehr ändert. Ein einzelner Durchlauf
+  // ließe sich über verschachtelte Tags umgehen (z. B. "<scr<script>ipt>" -> "<script>").
+  // Danach Entities dekodieren. Das Ergebnis wird ausschließlich als textContent
+  // verwendet, nie als innerHTML.
+  let text = snippet;
+  let previous: string;
+  do {
+    previous = text;
+    text = text.replace(/<[^>]*>/g, '');
+  } while (text !== previous);
+  return text
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')

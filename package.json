@@ -15,7 +15,7 @@
     "test:security": "vitest run tests/security",
     "test:all": "vitest run",
     "test:e2e": "playwright test",
-    "lint:webext": "web-ext lint --source-dir dist/firefox --warnings-as-errors=false",
+    "lint:webext": "npx --yes web-ext@8 lint --source-dir dist/firefox --warnings-as-errors=false",
     "build:chromium": "node scripts/build.mjs chromium",
     "build:firefox": "node scripts/build.mjs firefox",
     "build:safari": "node scripts/build.mjs safari",
@@ -40,8 +40,7 @@
     "jsdom": "^26.0.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.0",
-    "vitest": "^3.0.5",
-    "web-ext": "^8.4.0"
+    "vitest": "^3.0.5"
   },
   "allowScripts": {
     "esbuild@0.25.12": true,
