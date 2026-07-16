@@ -1,0 +1,7 @@
+{
+  "extName": { "message": "Wikipedia Quick Search" },
+  "extDescription": { "message": "Look up selected text on Wikipedia in a side panel via Alt+W – no AI, no tracking, no proprietary backend." },
+  "actionTitle": { "message": "Open Wikipedia Quick Search" },
+  "cmdLookup": { "message": "Look up selected text on Wikipedia" },
+  "cmdToggleSidebar": { "message": "Toggle the Wikipedia sidebar" }
+}

@@ -1,0 +1,7 @@
+{
+  "extName": { "message": "Wikipedia Quick Search" },
+  "extDescription": { "message": "Markierten Text per Alt+W im Side Panel auf Wikipedia nachschlagen – ohne KI, ohne Tracking, ohne eigenen Server." },
+  "actionTitle": { "message": "Wikipedia Quick Search öffnen" },
+  "cmdLookup": { "message": "Markierten Text auf Wikipedia nachschlagen" },
+  "cmdToggleSidebar": { "message": "Wikipedia-Seitenleiste ein-/ausblenden" }
+}

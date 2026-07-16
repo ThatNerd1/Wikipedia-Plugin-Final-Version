@@ -1,0 +1,50 @@
+{
+  "name": "wikipedia-quick-search",
+  "version": "1.0.0",
+  "description": "Sichere Wikipedia-Browsererweiterung: markierten Text per Alt+W/Option+W im Side Panel nachschlagen. Ohne LLM, ohne Tracking, ohne eigenen Server.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "lint": "eslint src tests",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run tests/unit tests/integration",
+    "test:security": "vitest run tests/security",
+    "test:all": "vitest run",
+    "test:e2e": "playwright test",
+    "lint:webext": "web-ext lint --source-dir dist/firefox --warnings-as-errors=false",
+    "build:chromium": "node scripts/build.mjs chromium",
+    "build:firefox": "node scripts/build.mjs firefox",
+    "build:safari": "node scripts/build.mjs safari",
+    "build:all": "node scripts/build.mjs chromium && node scripts/build.mjs firefox && node scripts/build.mjs safari",
+    "package:chromium": "node scripts/build.mjs chromium && node scripts/package.mjs chromium",
+    "package:firefox": "node scripts/build.mjs firefox && node scripts/package.mjs firefox",
+    "package:safari": "node scripts/build.mjs safari && node scripts/package.mjs safari",
+    "audit:security": "npm audit --omit=dev"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.4",
+    "pdfjs-dist": "^4.10.38"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@playwright/test": "^1.50.0",
+    "@types/chrome": "^0.0.300",
+    "@types/node": "^22.13.0",
+    "adm-zip": "^0.5.18",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.20.0",
+    "jsdom": "^26.0.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0",
+    "vitest": "^3.0.5",
+    "web-ext": "^8.4.0"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.1": true
+  }
+}

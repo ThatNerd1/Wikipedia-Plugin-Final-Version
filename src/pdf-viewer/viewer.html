@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF-Viewer – Wikipedia Quick Search</title>
+  <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+  <header class="toolbar">
+    <button id="pv-open-local" class="btn">PDF-Datei öffnen …</button>
+    <input id="pv-file" type="file" accept="application/pdf,.pdf" hidden>
+    <span id="pv-source" class="source" title="Original-PDF-URL"></span>
+    <span class="pages"><button id="pv-prev" class="btn" aria-label="Vorherige Seite">‹</button>
+      <span id="pv-pageinfo" role="status">–</span>
+      <button id="pv-next" class="btn" aria-label="Nächste Seite">›</button></span>
+    <button id="pv-zoom-out" class="btn" aria-label="Verkleinern">−</button>
+    <button id="pv-zoom-in" class="btn" aria-label="Vergrößern">+</button>
+  </header>
+  <div id="pv-status" class="status" role="status" aria-live="polite">
+    Öffne ein PDF über „PDF-Datei öffnen“ oder über einen Link mit dem Parameter <code>?src=…</code>.
+    Markiere anschließend Text und drücke <kbd>Alt</kbd>+<kbd>W</kbd> (macOS: <kbd>⌥</kbd>+<kbd>W</kbd>),
+    um ihn auf Wikipedia nachzuschlagen.
+  </div>
+  <main id="pv-container" class="container" tabindex="0" aria-label="PDF-Inhalt"></main>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>

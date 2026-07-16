@@ -1,0 +1,7 @@
+{
+  "parse": {
+    "title": "Photosynthese",
+    "pageid": 1234,
+    "text": "<div class=\"mw-parser-output\"><p><b>Photosynthese</b> ist ein Prozess. <a href=\"/wiki/Chlorophyll\">Chlorophyll</a> ist beteiligt.</p><img src=\"//upload.wikimedia.org/leaf.jpg\" alt=\"Blatt\"><script>alert('xss')</script><p onclick=\"evil()\">Klick</p></div>"
+  }
+}

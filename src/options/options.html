@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wikipedia Quick Search – Einstellungen</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1>Wikipedia Quick Search – Einstellungen</h1>
+
+    <section aria-labelledby="h-lang">
+      <h2 id="h-lang">Sprache</h2>
+      <label for="opt-lang">Bevorzugte Wikipedia-Sprache</label>
+      <select id="opt-lang"></select>
+      <label class="check"><input type="checkbox" id="opt-autodetect">
+        Sprache automatisch anhand der besuchten Seite vorschlagen</label>
+    </section>
+
+    <section aria-labelledby="h-theme">
+      <h2 id="h-theme">Darstellung</h2>
+      <label for="opt-theme">Farbschema</label>
+      <select id="opt-theme">
+        <option value="auto">System (automatisch)</option>
+        <option value="light">Hell</option>
+        <option value="dark">Dunkel</option>
+      </select>
+    </section>
+
+    <section aria-labelledby="h-privacy">
+      <h2 id="h-privacy">Datenschutz</h2>
+      <label class="check"><input type="checkbox" id="opt-history">
+        Suchverlauf lokal speichern (max. 100 Einträge, nie an Server übertragen)</label>
+      <p class="hint">Diese Erweiterung sendet Daten ausschließlich an Wikipedia/Wikimedia,
+        um Artikel zu laden. Keine Telemetrie, kein Tracking, kein eigener Server.</p>
+      <button id="opt-clear-all" class="danger">Alle lokalen Daten löschen</button>
+      <span id="opt-clear-status" role="status" aria-live="polite"></span>
+    </section>
+
+    <section aria-labelledby="h-perms">
+      <h2 id="h-perms">Website-Berechtigungen (Klick-Modus)</h2>
+      <p class="hint">Der Klick-Modus benötigt Zugriff auf die Websites, auf denen er aktiv sein
+        soll. Hier siehst du alle erteilten Berechtigungen und kannst sie widerrufen.</p>
+      <ul id="opt-origins" class="origin-list"></ul>
+      <p id="opt-origins-empty" class="hint" hidden>Keine Website-Berechtigungen erteilt.</p>
+    </section>
+
+    <section aria-labelledby="h-shortcut">
+      <h2 id="h-shortcut">Tastenkürzel</h2>
+      <p>Standard: <kbd>Alt</kbd>+<kbd>W</kbd> (Windows/Linux) bzw. <kbd>⌥ Option</kbd>+<kbd>W</kbd> (macOS).</p>
+      <p id="opt-shortcut-state" role="status"></p>
+      <details>
+        <summary>Tastenkürzel ändern</summary>
+        <ul>
+          <li>Chrome/Edge/Brave: Adresszeile → <code>chrome://extensions/shortcuts</code> bzw. <code>edge://extensions/shortcuts</code></li>
+          <li>Firefox: Add-ons verwalten → Zahnrad-Menü → „Tastenkürzel für Erweiterungen verwalten“</li>
+          <li>Safari: Safari-Einstellungen → Erweiterungen</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
