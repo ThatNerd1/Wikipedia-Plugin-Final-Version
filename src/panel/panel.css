@@ -1,0 +1,164 @@
+/* Systemfonts, keine Remote-Ressourcen. Light/Dark über prefers-color-scheme. */
+:root {
+  --bg: #ffffff; --fg: #1a1a1a; --muted: #5f6368; --border: #d5d9dd;
+  --accent: #2a4b8d; --accent-fg: #ffffff; --surface: #f4f6f8;
+  --danger: #b3261e; --focus: #1a73e8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1f22; --fg: #e8eaed; --muted: #9aa0a6; --border: #46484c;
+    --accent: #8ab4f8; --accent-fg: #17233d; --surface: #2a2b2f;
+    --danger: #f28b82; --focus: #8ab4f8;
+  }
+}
+[data-theme="light"] { color-scheme: light; }
+[data-theme="dark"] {
+  --bg: #1e1f22; --fg: #e8eaed; --muted: #9aa0a6; --border: #46484c;
+  --accent: #8ab4f8; --accent-fg: #17233d; --surface: #2a2b2f;
+  --danger: #f28b82; --focus: #8ab4f8;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+/* Muss vor allen display-Regeln stehen: Author-CSS schlägt das UA-Stylesheet,
+   d.h. jede eigene display-Angabe würde [hidden] sonst wirkungslos machen. */
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 14px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex; flex-direction: column; min-width: 260px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; left: -999px; top: 0; background: var(--accent);
+  color: var(--accent-fg); padding: 6px 10px; z-index: 10;
+}
+.skip-link:focus { left: 8px; }
+
+.topbar {
+  display: flex; align-items: center; gap: 4px; padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.heading { font-size: 15px; font-weight: 600; flex: 1; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.icon-btn {
+  border: 1px solid transparent; background: transparent; color: var(--fg);
+  font-size: 16px; width: 30px; height: 30px; border-radius: 6px; cursor: pointer;
+}
+.icon-btn:hover:not(:disabled) { background: var(--surface); }
+.icon-btn:disabled { opacity: .35; cursor: default; }
+
+.searchbar { display: flex; gap: 6px; padding: 8px 10px; }
+#wqs-search {
+  flex: 1; min-width: 100px; padding: 7px 10px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--bg); color: var(--fg); font-size: 14px;
+}
+#wqs-lang {
+  padding: 6px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg); color: var(--fg); max-width: 92px;
+}
+
+.tabs { display: flex; align-items: center; gap: 4px; padding: 0 10px 8px; flex-wrap: wrap; }
+.tab {
+  border: 1px solid var(--border); background: var(--bg); color: var(--fg);
+  padding: 4px 10px; border-radius: 999px; cursor: pointer; font-size: 12.5px;
+}
+.tab[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.toggle-wrap { margin-left: auto; }
+.toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; cursor: pointer; }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+.banner {
+  margin: 0 10px 8px; padding: 8px 10px; border: 1px solid var(--border);
+  border-left: 4px solid var(--accent); border-radius: 6px; background: var(--surface);
+  font-size: 12.5px;
+}
+.banner .banner-actions { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.status { min-height: 0; padding: 0 12px; color: var(--muted); font-size: 12.5px; }
+.status:not(:empty) { padding-bottom: 6px; }
+
+.content { flex: 1; overflow-y: auto; padding: 4px 12px 12px; }
+
+.empty-state { text-align: center; color: var(--muted); padding: 28px 8px; }
+.empty-state h2 { font-size: 15px; color: var(--fg); }
+.empty-state kbd {
+  background: var(--surface); border: 1px solid var(--border); border-bottom-width: 2px;
+  border-radius: 4px; padding: 1px 6px; font-family: inherit;
+}
+
+.result-list, .plain-list { list-style: none; margin: 0; padding: 0; }
+.result-item { border-bottom: 1px solid var(--border); }
+.result-btn {
+  display: flex; gap: 10px; width: 100%; text-align: start; background: transparent;
+  color: var(--fg); border: 0; padding: 10px 4px; cursor: pointer; border-radius: 6px;
+}
+.result-btn:hover { background: var(--surface); }
+.result-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex: none; background: var(--surface); }
+.result-main { min-width: 0; }
+.result-title { font-weight: 600; }
+.result-desc { color: var(--muted); font-size: 12.5px; }
+.badge {
+  display: inline-block; font-size: 10.5px; padding: 1px 6px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+  margin-left: 6px; vertical-align: 1px;
+}
+
+.article-head { display: flex; gap: 10px; align-items: flex-start; margin: 6px 0 4px; }
+.article-title { font-size: 19px; margin: 0; flex: 1; }
+.article-desc { color: var(--muted); margin: 0 0 8px; font-size: 13px; }
+.article-thumb { max-width: 120px; max-height: 120px; border-radius: 8px; }
+.article-actions { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 12px; }
+.btn {
+  border: 1px solid var(--border); background: var(--surface); color: var(--fg);
+  padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 13px;
+}
+.btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.btn.danger { color: var(--danger); border-color: var(--danger); }
+.btn:hover { filter: brightness(1.06); }
+
+.wiki-content { overflow-wrap: break-word; }
+.wiki-content a { color: var(--accent); }
+.wiki-content img { max-width: 100%; height: auto; border-radius: 6px; }
+.wiki-content table { border-collapse: collapse; font-size: 12.5px; max-width: 100%; display: block; overflow-x: auto; }
+.wiki-content th, .wiki-content td { border: 1px solid var(--border); padding: 4px 6px; }
+.wiki-content h2, .wiki-content h3 { margin-top: 18px; }
+.redirect-note, .disambig-note { color: var(--muted); font-size: 12.5px; font-style: italic; }
+
+.row-actions { display: flex; gap: 4px; }
+.list-row {
+  display: flex; align-items: center; gap: 8px; padding: 8px 4px;
+  border-bottom: 1px solid var(--border);
+}
+.list-main { flex: 1; min-width: 0; cursor: pointer; }
+.list-title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list-sub { color: var(--muted); font-size: 12px; }
+.link-btn { background: none; border: none; color: var(--accent); cursor: pointer; padding: 2px 4px; font-size: 12.5px; }
+
+.attribution {
+  display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 8px 12px;
+  border-top: 1px solid var(--border); color: var(--muted); font-size: 11.5px;
+}
+.attribution a { color: var(--accent); }
+
+#wqs-collapsed-overlay:not([hidden]) {
+  position: fixed; inset: 0; background: var(--bg); display: flex;
+  align-items: flex-start; justify-content: center; padding-top: 20px; z-index: 20;
+}
+.expand-btn {
+  border: 1px solid var(--border); background: var(--surface); color: var(--fg);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer;
+}
+.spinner { color: var(--muted); padding: 16px 4px; }
+.error-box {
+  border: 1px solid var(--danger); border-radius: 8px; padding: 10px 12px;
+  color: var(--danger); background: color-mix(in srgb, var(--danger) 8%, var(--bg));
+}
+.error-box .btn { margin-top: 8px; }

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+packages/
+*.log
+.DS_Store
+safari/WikipediaQuickSearch/build/
+playwright-report/
+test-results/
+.env
+.env.*

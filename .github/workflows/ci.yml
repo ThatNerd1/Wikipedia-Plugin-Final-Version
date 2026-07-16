@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Lockfile vorhanden und gültig
+        run: |
+          test -s package-lock.json || (echo "package-lock.json fehlt/leer" && exit 1)
+          node -e "const l=require('./package-lock.json'); if(!l.lockfileVersion) process.exit(1)"
+
+      - name: Install (reproduzierbar)
+        run: npm ci
+
+      - name: TypeScript
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit- & Integrationstests
+        run: npm run test
+
+      - name: Security-Tests
+        run: npm run test:security
+
+      - name: Audit (Produktionsabhängigkeiten)
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Produktionsbuilds
+        run: |
+          npm run build:chromium
+          npm run build:firefox
+          npm run build:safari
+
+      - name: Pakete erstellen
+        run: |
+          npm run package:chromium
+          npm run package:firefox
+
+      - name: web-ext lint (Firefox)
+        run: npx web-ext lint --source-dir dist/firefox --warnings-as-errors=false
+
+      - name: Browserpakete als Artefakte hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-packages
+          path: packages/*
+          if-no-files-found: error
