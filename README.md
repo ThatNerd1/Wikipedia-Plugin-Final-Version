@@ -58,6 +58,8 @@ Erlaubnis funktioniert die Suche per `Alt+W` weiterhin.
 
 - **Markierten Text nachschlagen** – Text markieren, `Alt+W` (Windows/Linux) bzw.
   `Option+W` (macOS) drücken, das Side Panel öffnet sich mit dem passenden Artikel.
+- **Rechtsklick-Kontextmenü** – markierten Text per Rechtsklick → „Auf Wikipedia
+  nachschlagen" öffnen, ganz ohne Tastenkürzel.
 - **Echtes Side Panel** – natives `sidePanel` (Chromium/Edge), `sidebar_action`
   (Firefox) oder sicherer In-Page-Drawer (Safari/Fallback).
 - **Interne Navigation mit Zurück-Button** – ohne den Tab-Verlauf zu verändern.
