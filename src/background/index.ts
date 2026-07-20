@@ -79,22 +79,19 @@ async function notifyPanel(query: string, reason: SearchReason): Promise<void> {
   }
 }
 
-async function requestOpenPanelClose(): Promise<boolean> {
-  try {
-    const response = (await chrome.runtime.sendMessage({ type: MSG.CLOSE_PANEL })) as
-      | { ok?: boolean }
-      | undefined;
-    return response?.ok === true;
-  } catch {
-    return false;
-  }
-}
-
 /** Kernfunktion 1: Alt+W / Option+W. */
 async function handleLookupCommand(tab: chrome.tabs.Tab | undefined): Promise<void> {
   const active = tab ?? (await chrome.tabs.query({ active: true, currentWindow: true }))[0];
   if (!active?.id) return;
   const incognito = active.incognito === true;
+
+  // WICHTIG (Gesture-Härtung): Das Panel muss ZUERST geöffnet werden, solange
+  // die Tastatur-Geste von Alt+W noch gültig ist. chrome.sidePanel.open() darf
+  // nur direkt im Rahmen einer Nutzerinteraktion aufgerufen werden; jeder
+  // vorherige await (z. B. das Auslesen der Auswahl) kann die Geste verbrauchen
+  // und das Öffnen still fehlschlagen lassen. Deshalb hier ein einziges Alt+W,
+  // das zuverlässig öffnet UND sucht – kein zweites „Panel öffnen“-Kürzel nötig.
+  const opened = await tryOpenNativePanel(active.id, active.windowId);
 
   let text: string | null = null;
   let reason: SearchReason = 'shortcut';
@@ -105,7 +102,7 @@ async function handleLookupCommand(tab: chrome.tabs.Tab | undefined): Promise<vo
     try {
       text = await readSelectionFromTab(active.id);
     } catch {
-      // Privilegierte Seite / nativer PDF-Viewer: Panel trotzdem öffnen,
+      // Privilegierte Seite / nativer PDF-Viewer: Panel ist bereits offen,
       // manuelles Suchfeld fokussieren, Erklärung anzeigen (Stufe 1).
       reason = 'pdf-fallback';
     }
@@ -115,19 +112,56 @@ async function handleLookupCommand(tab: chrome.tabs.Tab | undefined): Promise<vo
   const query = normalized ?? '';
   if (!normalized && reason === 'shortcut') reason = 'no-selection';
 
-  if (!query && reason === 'no-selection') {
-    const closed = await requestOpenPanelClose();
-    if (closed) return;
-  }
-
   await setPendingLookup({ query, reason, incognito, ts: Date.now() });
-  const opened = await tryOpenNativePanel(active.id, active.windowId);
   if (!opened && detectPanelKind() === 'none') {
     // Safari/kein natives Panel: Popup-/Drawer-Fallback. Der Nutzer öffnet
     // das Popup über die Toolbar; der Lookup bleibt als pending gespeichert.
   }
   if (query) await notifyPanel(query, reason);
   else await notifyPanel(' ', reason); // Leere Suche: Panel fokussiert Suchfeld.
+}
+
+// --- Kontextmenü: Rechtsklick auf markierten Text ---------------------------
+
+const CONTEXT_MENU_ID = 'wqs-lookup-selection';
+
+function createContextMenu(): void {
+  if (!chrome.contextMenus) return;
+  try {
+    chrome.contextMenus.removeAll(() => {
+      void chrome.runtime.lastError; // evtl. Fehler bewusst ignorieren
+      chrome.contextMenus.create({
+        id: CONTEXT_MENU_ID,
+        title: 'Auf Wikipedia nachschlagen',
+        contexts: ['selection']
+      });
+    });
+  } catch {
+    /* contextMenus im aktuellen Browser nicht verfügbar */
+  }
+}
+
+/**
+ * Nachschlagen über das Kontextmenü. Der Menüklick ist eine echte Nutzergeste,
+ * daher kann das Panel zuverlässig geöffnet werden. Der markierte Text kommt
+ * direkt aus info.selectionText – kein Zugriff auf den Seiteninhalt nötig.
+ */
+async function handleContextLookup(
+  rawText: string,
+  tab: chrome.tabs.Tab | undefined
+): Promise<void> {
+  const active = tab ?? (await chrome.tabs.query({ active: true, currentWindow: true }))[0];
+  if (!active?.id) return;
+  const incognito = active.incognito === true;
+
+  const opened = await tryOpenNativePanel(active.id, active.windowId);
+  const normalized = normalizeSelection(rawText);
+  const query = normalized ?? '';
+  const reason: SearchReason = query ? 'shortcut' : 'no-selection';
+
+  await setPendingLookup({ query, reason, incognito, ts: Date.now() });
+  void opened;
+  await notifyPanel(query || ' ', reason);
 }
 
 /** Prüft nach Installation, ob der Shortcut tatsächlich registriert wurde. */
@@ -361,11 +395,18 @@ function handleMessage(
 chrome.runtime.onInstalled.addListener(() => {
   void verifyShortcutRegistration();
   void configureActionClickOpensPanel();
+  createContextMenu();
   void getSettings().then((s) => syncOnClickRegistration(s.onClickEnabled));
 });
 
 chrome.runtime.onStartup?.addListener(() => {
   void verifyShortcutRegistration();
+  createContextMenu();
+});
+
+chrome.contextMenus?.onClicked.addListener((info, tab) => {
+  if (info.menuItemId !== CONTEXT_MENU_ID) return;
+  void handleContextLookup(info.selectionText ?? '', tab);
 });
 
 chrome.commands?.onCommand.addListener((command, tab) => {

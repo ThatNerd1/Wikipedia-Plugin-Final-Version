@@ -34,9 +34,18 @@
       "description": "__MSG_cmdLookup__"
     }
   },
-  "permissions": ["activeTab", "scripting", "storage"],
-  "host_permissions": ["https://*.wikipedia.org/*"],
-  "optional_host_permissions": ["<all_urls>"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://*.wikipedia.org/*"
+  ],
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
   "content_security_policy": {
     "extension_pages": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://upload.wikimedia.org; connect-src 'self' https://*.wikipedia.org; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
   },

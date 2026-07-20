@@ -111,34 +111,19 @@ export function sanitizeWikiHtml(untrustedHtml: string, options: SanitizeOptions
 }
 
 /**
- * Setzt sanitisiertes HTML in einen Container ein.
- * Einziger erlaubter innerHTML-Sink der gesamten Erweiterung;
- * verwendet Trusted Types, wo der Browser sie unterstützt.
+ * Setzt bereits sanitisiertes HTML in einen Container ein - OHNE innerHTML.
+ * Die (mit DOMPurify vorab bereinigte) HTML-Zeichenkette wird über DOMParser zu
+ * inerten DOM-Knoten geparst - dabei werden keine Scripts ausgeführt und keine
+ * Event-Handler aktiv - und anschließend in den Container eingehängt. Dadurch
+ * entfällt jede innerHTML-Zuweisung (auch für statische Analyse unbedenklich).
  */
-interface TrustedTypesWindow {
-  trustedTypes?: {
-    createPolicy(name: string, rules: { createHTML(input: string): string }): { createHTML(input: string): unknown };
-  };
-}
-
-let ttPolicy: { createHTML(input: string): unknown } | null | undefined;
-
 export function setSanitizedHtml(container: Element, sanitizedHtml: string): void {
-  const w = globalThis as unknown as TrustedTypesWindow;
-  if (ttPolicy === undefined) {
-    try {
-      ttPolicy = w.trustedTypes
-        ? w.trustedTypes.createPolicy('wqs-sanitized', { createHTML: (s) => s })
-        : null;
-    } catch {
-      ttPolicy = null;
-    }
+  const parsed = new DOMParser().parseFromString(sanitizedHtml, 'text/html');
+  const fragment = document.createDocumentFragment();
+  for (const node of Array.from(parsed.body.childNodes)) {
+    fragment.appendChild(document.importNode(node, true));
   }
-  if (ttPolicy) {
-    (container as { innerHTML: unknown }).innerHTML = ttPolicy.createHTML(sanitizedHtml);
-  } else {
-    container.innerHTML = sanitizedHtml;
-  }
+  container.replaceChildren(fragment);
 }
 
 /** Entfernt HTML-Tags aus API-Snippets und liefert reinen Text. */

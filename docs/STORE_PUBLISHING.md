@@ -10,7 +10,7 @@
 
 ## Chrome Web Store
 - [ ] `npm run package:chromium` → `packages/…-chromium-v<version>.zip`.
-- [ ] Berechtigungsbegründungen hinterlegt (`activeTab`, `scripting`, `storage`,
+- [ ] Berechtigungsbegründungen hinterlegt (`activeTab`, `scripting`, `storage`, `contextMenus`,
       `sidePanel`, Host `*.wikipedia.org`, optional `<all_urls>` für On-Click).
 - [ ] Datenschutz-Formular ausgefüllt (keine Datensammlung).
 - [ ] Single-Purpose-Beschreibung.

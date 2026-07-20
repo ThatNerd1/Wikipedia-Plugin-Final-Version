@@ -58,6 +58,8 @@ Erlaubnis funktioniert die Suche per `Alt+W` weiterhin.
 
 - **Markierten Text nachschlagen** – Text markieren, `Alt+W` (Windows/Linux) bzw.
   `Option+W` (macOS) drücken, das Side Panel öffnet sich mit dem passenden Artikel.
+- **Rechtsklick-Kontextmenü** – markierten Text per Rechtsklick → „Auf Wikipedia
+  nachschlagen" öffnen, ganz ohne Tastenkürzel.
 - **Echtes Side Panel** – natives `sidePanel` (Chromium/Edge), `sidebar_action`
   (Firefox) oder sicherer In-Page-Drawer (Safari/Fallback).
 - **Interne Navigation mit Zurück-Button** – ohne den Tab-Verlauf zu verändern.
@@ -105,6 +107,13 @@ npm run build:chromium   # oder build:firefox / build:safari
 
 Die gebauten Erweiterungen liegen danach in `dist/<browser>/`.
 
+> **Für Einsteiger:** Ausführliche, bebilderte Schritt-für-Schritt-Anleitungen ohne
+> Vorwissen gibt es hier:
+> - Chrome / Edge / Brave / Opera / Vivaldi: [`docs/INSTALL-CHROME.md`](docs/INSTALL-CHROME.md)
+> - Safari (macOS): [`docs/INSTALL-SAFARI.md`](docs/INSTALL-SAFARI.md)
+>
+> Die folgenden Abschnitte sind die Kurzfassung für Entwickler.
+
 ### Sideloading in Chrome
 
 1. `chrome://extensions` öffnen.
@@ -125,7 +134,8 @@ Die gebauten Erweiterungen liegen danach in `dist/<browser>/`.
 
 ### Safari-Build über Xcode
 
-Siehe `safari/README.md`. Kurz:
+Einsteiger-Anleitung: [`docs/INSTALL-SAFARI.md`](docs/INSTALL-SAFARI.md).
+Kurzfassung (siehe auch `safari/README.md`):
 
 ```bash
 npm run build:safari

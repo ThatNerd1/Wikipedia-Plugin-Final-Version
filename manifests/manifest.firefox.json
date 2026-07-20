@@ -7,7 +7,15 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "wikipedia-quick-search@fdt-project.example",
-      "strict_min_version": "128.0"
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "searchTerms"
+        ]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
     }
   },
   "icons": {
@@ -17,7 +25,9 @@
     "128": "icons/icon-128.png"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "action": {
     "default_title": "__MSG_actionTitle__",
@@ -45,9 +55,18 @@
       "description": "__MSG_cmdLookup__"
     }
   },
-  "permissions": ["activeTab", "scripting", "storage"],
-  "host_permissions": ["https://*.wikipedia.org/*"],
-  "optional_host_permissions": ["<all_urls>"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://*.wikipedia.org/*"
+  ],
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
   "content_security_policy": {
     "extension_pages": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://upload.wikimedia.org; connect-src 'self' https://*.wikipedia.org; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
   },

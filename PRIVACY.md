@@ -23,6 +23,9 @@ betreibt keinen eigenen Server.**
 - Keine Speicherung von Textauswahlen außerhalb der Verlaufsfunktion.
 - Keine Nutzung der Browser-Berechtigungen `history`, `bookmarks`, `cookies`,
   `clipboardRead` oder `webRequest`.
+- Die Berechtigung `contextMenus` dient nur dem Rechtsklick-Eintrag „Auf Wikipedia
+  nachschlagen" und liest oder überträgt keine Daten; der markierte Text wird beim
+  Klick direkt vom Browser übergeben.
 
 ## Netzwerkverbindungen
 

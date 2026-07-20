@@ -51,10 +51,13 @@ Kein `unsafe-eval`, keine Inline-Scripts, keine Inline-Event-Handler.
 
 ## Berechtigungen
 
-Basisrechte: `activeTab`, `scripting`, `storage`, Panel-/Sidebar-Recht,
-Host-Recht `https://*.wikipedia.org/*`. Host-Recht für den On-Click-Modus ist
-**optional** und wird zur Laufzeit angefragt (bevorzugt seitenspezifisch),
-jederzeit widerrufbar. `incognito: not_allowed`.
+Basisrechte: `activeTab`, `scripting`, `storage`, `contextMenus`,
+Panel-/Sidebar-Recht, Host-Recht `https://*.wikipedia.org/*`.
+`contextMenus` dient ausschließlich dem Eintrag „Auf Wikipedia nachschlagen"
+im Rechtsklick-Menü bei markiertem Text; es gewährt keinen Seiten- oder
+Datenzugriff. Host-Recht für den On-Click-Modus ist **optional** und wird zur
+Laufzeit angefragt (bevorzugt seitenspezifisch), jederzeit widerrufbar.
+`incognito: not_allowed`.
 
 ## Supply Chain
 
