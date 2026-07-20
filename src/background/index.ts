@@ -128,13 +128,20 @@ const CONTEXT_MENU_ID = 'wqs-lookup-selection';
 function createContextMenu(): void {
   if (!chrome.contextMenus) return;
   try {
+    // removeAll dedupliziert einen evtl. noch vorhandenen Eintrag; der Callback
+    // am create() schluckt einen „duplicate id“-Fehler bewusst (belt & suspenders).
     chrome.contextMenus.removeAll(() => {
-      void chrome.runtime.lastError; // evtl. Fehler bewusst ignorieren
-      chrome.contextMenus.create({
-        id: CONTEXT_MENU_ID,
-        title: 'Auf Wikipedia nachschlagen',
-        contexts: ['selection']
-      });
+      void chrome.runtime.lastError;
+      chrome.contextMenus.create(
+        {
+          id: CONTEXT_MENU_ID,
+          title: 'Auf Wikipedia nachschlagen',
+          contexts: ['selection']
+        },
+        () => {
+          void chrome.runtime.lastError;
+        }
+      );
     });
   } catch {
     /* contextMenus im aktuellen Browser nicht verfügbar */
@@ -401,7 +408,9 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onStartup?.addListener(() => {
   void verifyShortcutRegistration();
-  createContextMenu();
+  // createContextMenu() hier bewusst NICHT: Kontextmenüs bleiben über Neustarts
+  // erhalten. Ein zweiter Aufruf würde mit onInstalled um dieselbe ID konkurrieren
+  // („Cannot create item with duplicate id“).
 });
 
 chrome.contextMenus?.onClicked.addListener((info, tab) => {
